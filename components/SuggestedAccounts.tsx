@@ -1,6 +1,6 @@
-import React from "react";
+import { NextPage } from "next";
 
-const SuggestedAccounts = () => {
+const SuggestedAccounts: NextPage = () => {
     return <div>SuggestedAccounts</div>;
 };
 
