@@ -29,6 +29,12 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
         }
     };
 
+    useEffect(() => {
+        if (videoRef?.current) {
+            videoRef.current.muted = isVideoMuted;
+        }
+    }, [isVideoMuted]);
+
     return (
         <div className="flex flex-col border-b-2 border-gray-200 pb-6">
             <div>
@@ -73,7 +79,7 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
                     }}
                     className="rounded-3xl"
                 >
-                    <Link href="/">
+                    <Link href={`/detail/${post._id}`}>
                         <video
                             src={post.video.asset.url}
                             ref={videoRef}
