@@ -7,12 +7,15 @@ import { BsPlay, BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { GoVerified } from "react-icons/go";
 
 import { Video } from "../types";
+import { useTheme } from "next-themes";
 
 interface IProps {
     post: Video;
 }
 
 const VideoCard: NextPage<IProps> = ({ post }) => {
+    const { theme } = useTheme();
+
     const [isHover, setIsHover] = useState(false);
     const [playing, setPlaying] = useState(false);
     const [isVideoMuted, setIsVideoMuted] = useState(false);
@@ -41,22 +44,26 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
                 <div className="flex gap-3 p-2 cursor-pointer font-semibold rounded">
                     <div className="md:w-16 md:h-16 w-10 h-10">
                         <Link href={`/profile/${post.postedBy._id}`}>
-                            <>
-                                <Image
-                                    width={62}
-                                    height={62}
-                                    className="rounded-full"
-                                    src={post.postedBy.image}
-                                    alt="profile photo"
-                                    layout="responsive"
-                                />
-                            </>
+                            <Image
+                                width={62}
+                                height={62}
+                                className="rounded-full"
+                                src={post.postedBy.image}
+                                alt="profile photo"
+                                layout="responsive"
+                            />
                         </Link>
                     </div>
                     <div>
                         <Link href={`/profile/${post.postedBy._id}`}>
-                            <div className="flex items-center gap-2">
-                                <p className="flex gap-2 items-center md:text-md font-bold text-primary">
+                            <div className="flex flex-col gap-2">
+                                <p
+                                    className={`flex gap-2 items-center md:text-md font-bold ${
+                                        theme === "light"
+                                            ? "text-primary"
+                                            : "text-white"
+                                    }`}
+                                >
                                     {post.postedBy.userName}{" "}
                                     <GoVerified className="text-blue-400 text-md" />
                                 </p>
@@ -84,7 +91,11 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
                             src={post.video.asset.url}
                             ref={videoRef}
                             loop
-                            className="lg:w-[600px] h-[300px] md:h-[400px] lg:h-[530px] w-[200px] rounded-2xl cursor-pointer bg-gray-100"
+                            className={`lg:w-[600px] h-[300px] md:h-[400px] lg:h-[530px] w-[200px] rounded-2xl cursor-pointer ${
+                                theme === "light"
+                                    ? "bg-gray-100"
+                                    : "bg-gray-800"
+                            }`}
                         ></video>
                     </Link>
 

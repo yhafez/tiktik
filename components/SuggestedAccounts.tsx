@@ -6,8 +6,10 @@ import { GoVerified } from "react-icons/go";
 
 import useAuthStore from "../store/authStore";
 import { IUser } from "../types";
+import { useTheme } from "next-themes";
 
 const SuggestedAccounts: NextPage = () => {
+    const { theme } = useTheme();
     const { fetchAllUsers, allUsers } = useAuthStore();
 
     useEffect(() => {
@@ -16,13 +18,23 @@ const SuggestedAccounts: NextPage = () => {
 
     return (
         <div className="xl:border-b-2 border-gray-200 pb-4">
-            <p className="text-gray-500 font-semibold m-3 mt-4 hidden xl:block">
+            <p
+                className={`${
+                    theme === "light" ? "text-gray-500" : "text-gray-400"
+                } font-semibold m-3 mt-4 hidden xl:block`}
+            >
                 Suggested Accounts
             </p>
             <div>
                 {allUsers.slice(0, 6).map((user: IUser) => (
                     <Link href={`/profile/${user._id}`} key={user._id}>
-                        <div className="flex gap-3 hover:bg-primary p-2 cursor-pointer font-semibold rounded">
+                        <div
+                            className={`flex gap-3 p-2 cursor-pointer font-semibold rounded ${
+                                theme === "light"
+                                    ? "hover:bg-primary"
+                                    : "hover:bg-gray-800"
+                            }`}
+                        >
                             <div className="w-8 h-8">
                                 <Image
                                     src={user.image}
@@ -35,7 +47,13 @@ const SuggestedAccounts: NextPage = () => {
                             </div>
 
                             <div className="hidden xl:block">
-                                <p className="flex gap-1 items-center text-md font-bold text-primary lowercase">
+                                <p
+                                    className={`flex gap-1 items-center text-md font-bold lowercase ${
+                                        theme === "light"
+                                            ? "text-primary"
+                                            : "text-white"
+                                    }`}
+                                >
                                     {user.userName.replaceAll(" ", "")}
                                     <GoVerified className="text-blue-400" />
                                 </p>

@@ -1,22 +1,31 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 
 import { topics } from "../utils/constants";
 
 const Discover: NextPage = () => {
+    const { theme } = useTheme();
     const router = useRouter();
     const { topic } = router.query;
 
     const activeTopicStyle =
         "xl:border-2 hover:bg-primary xl:border-[#F51997] px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-[#F51997]";
 
-    const topicStyle =
-        "xl:border-2 hover:bg-primary xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer text-black";
+    const topicStyle = `xl:border-2 xl:border-gray-300 px-3 py-2 rounded xl:rounded-full flex items-center gap-2 justify-center cursor-pointer ${
+        theme === "light"
+            ? "text-black hover:bg-primary"
+            : "text-white hover:bg-gray-500"
+    }`;
 
     return (
         <div className="xl:border-b-2 xl:border-gray-200 pb-6">
-            <p className="text-gray-500 font-semibold m-3 mt-4 hidden xl:block">
+            <p
+                className={`${
+                    theme === "light" ? "text-gray-500" : "text-gray-400"
+                } font-semibold m-3 mt-4 hidden xl:block`}
+            >
                 Popular Topics
             </p>
             <div className="flex gap-3 flex-wrap">

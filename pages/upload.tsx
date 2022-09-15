@@ -11,8 +11,11 @@ import { client } from "../utils/client";
 
 import { topics } from "../utils/constants";
 import { BASE_URL } from "../utils";
+import { useTheme } from "next-themes";
 
 const Upload: NextPage = () => {
+    const { theme } = useTheme();
+
     const [isLoading, setIsLoading] = useState(false);
     const [videoAsset, setVideoAsset] = useState<
         SanityAssetDocument | undefined
@@ -42,6 +45,7 @@ const Upload: NextPage = () => {
                 })
                 .then((data) => {
                     setVideoAsset(data);
+                    setWrongFileType(false);
                     setIsLoading(false);
                 });
         } else {
@@ -78,8 +82,16 @@ const Upload: NextPage = () => {
     };
 
     return (
-        <div className="flex w-full h-full absolute left-0 top-[60px] mb-10 pt-10 lg:pt-20 bg-[#F8F8F8] justify-center">
-            <div className="bg-white rounded-lg xl:h-[80vh] flex gap-6 flex-wrap justify-between items-center p-14 pt-6 w-[60%]">
+        <div
+            className={`flex w-full h-full absolute left-0 top-[90px] mb-10 pt-10 lg:pt-20 justify-center ${
+                theme === "light" ? "bg-[#F8F8F8]" : "bg-[#121212]"
+            }`}
+        >
+            <div
+                className={`${
+                    theme === "light" ? "bg-white" : "bg-black"
+                } rounded-lg xl:h-[80vh] flex gap-6 flex-wrap justify-between items-center p-14 pt-6 w-[60%]`}
+            >
                 <div>
                     <div>
                         <p className="text-2xl font-bold">Upload video</p>
@@ -87,18 +99,24 @@ const Upload: NextPage = () => {
                             Post a video to your account
                         </p>
                     </div>
-                    <div className="border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center outline-none mt-10 w-[260px] h-[460px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
+                    <div
+                        className={`border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center outline-none mt-10 w-[360px] h-[460px] py-10 cursor-pointer hover:border-red-300 ${
+                            theme === "light"
+                                ? "hover:bg-gray-100"
+                                : "hover:bg-gray-800"
+                        }`}
+                    >
                         {isLoading ? (
                             <p>Uploading...</p>
                         ) : (
                             <div>
                                 {videoAsset ? (
-                                    <div>
+                                    <div className="w-[350px]">
                                         <video
                                             src={videoAsset.url}
                                             loop
                                             controls
-                                            className="rounded-xl h-[450px] mt-16 bg-black"
+                                            className="rounded-xl h-[450px] mt-12 bg-black"
                                         ></video>
                                     </div>
                                 ) : (
@@ -133,8 +151,8 @@ const Upload: NextPage = () => {
                             </div>
                         )}
                         {wrongFileType && (
-                            <p className="text-center text-xl text-red-400 font-semibold mt-4 w-[250px]">
-                                Please select a video file
+                            <p className="text-center w-[100%] text-xl text-red-400 font-semibold mt-4 w-[250px]">
+                                Wrong File Type
                             </p>
                         )}
                     </div>
@@ -148,6 +166,7 @@ const Upload: NextPage = () => {
                             setCaption(e.target.value);
                         }}
                         className="rounded outline-none text-md border-2 border-gray-200 p-2"
+                        placeholder="Caption"
                     />
                     <label className="text-md font-medium">
                         Choose a category
@@ -170,7 +189,7 @@ const Upload: NextPage = () => {
                     </select>
                     <div className="flex gap-6 mt-10">
                         <button
-                            onClick={() => {}}
+                            onClick={() => router.push("/")}
                             type="button"
                             className="border-gray-300 border-2 text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
                         >

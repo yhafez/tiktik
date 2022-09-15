@@ -6,6 +6,7 @@ import { GoVerified } from "react-icons/go";
 import useAuthStore from "../store/authStore";
 import NoResults from "./NoResults";
 import { IUser } from "../types";
+import { useTheme } from "next-themes";
 
 interface IProps {
     isPostingComment: Boolean;
@@ -32,10 +33,16 @@ const Comments = ({
     addComment,
     comments,
 }: IProps) => {
+    const { theme } = useTheme();
+
     const { userProfile, allUsers }: any = useAuthStore();
 
     return (
-        <div className="border-t-2 border-gray-200 pt-4 px-10 mt-4 bg-[#F8F8F8] border-b-2 lg:pb-0 pb-[100px]">
+        <div
+            className={`border-t-2 border-gray-200 pt-4 px-10 mt-4 ${
+                theme === "light" ? "bg-[#F8F8F8]" : "bg-[#131313]"
+            } border-b-2 lg:pb-0 pb-[100px]`}
+        >
             <div className="overflow-scroll lg:h-[457px]">
                 {comments?.length ? (
                     comments?.map((item: IComment, i: number) => (
@@ -62,7 +69,13 @@ const Comments = ({
                                                         />
                                                     </div>
 
-                                                    <p className="flex cursor-pointer gap-1 items-center text-[18px] font-bold leading-6 text-primary">
+                                                    <p
+                                                        className={`flex cursor-pointer gap-1 items-center text-[18px] font-bold leading-6 ${
+                                                            theme === "light"
+                                                                ? "text-primary"
+                                                                : "text-white"
+                                                        }`}
+                                                    >
                                                         {user.userName}{" "}
                                                         <GoVerified className="text-blue-400" />
                                                     </p>
@@ -91,11 +104,12 @@ const Comments = ({
                                 setComment(e.target.value);
                             }}
                             placeholder="Add comment..."
-                            className="bg-primary px-6 py-4 text-md font-medium border-2 w-[250px] md:w-[700px] lg:w-[350px] border-gray-100 focus:outline-none focus:border-2 focus:border-gray-300 flex-1 rounded-lg"
+                            className="px-6 py-4 text-md font-medium border-2 w-[250px] md:w-[700px] lg:w-[350px] border-gray-100 focus:outline-none focus:border-2 focus:border-gray-300 flex-1 rounded-lg"
                         />
                         <button
                             className="text-md text-gray-400"
-                            onClick={() => {}}
+                            onClick={addComment}
+                            disabled={!!isPostingComment}
                         >
                             {isPostingComment ? "Commenting..." : "Comment"}
                         </button>

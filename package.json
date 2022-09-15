@@ -14,9 +14,11 @@
         "axios": "^0.27.2",
         "jwt-decode": "^3.1.2",
         "next": "12.1.6",
+        "next-themes": "^0.2.1",
         "react": "18.1.0",
         "react-dom": "18.1.0",
         "react-icons": "^4.3.1",
+        "react-toggle-dark-mode": "^1.1.0",
         "uuidv4": "^6.2.13",
         "zustand": "^4.0.0-rc.1"
     },
